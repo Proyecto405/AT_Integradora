@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-05-2023 a las 21:39:19
--- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.2.0
+-- Tiempo de generación: 08-05-2023 a las 15:51:40
+-- Versión del servidor: 10.4.11-MariaDB
+-- Versión de PHP: 7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -31,7 +32,7 @@ CREATE TABLE `clase` (
   `Id_Clase` int(11) NOT NULL,
   `Horario` varchar(55) NOT NULL,
   `Id_Laboratorio` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `clase`
@@ -53,7 +54,7 @@ INSERT INTO `clase` (`Id_Clase`, `Horario`, `Id_Laboratorio`) VALUES
 CREATE TABLE `estado` (
   `Id_Estado` int(11) NOT NULL,
   `Nombre_E` varchar(55) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `estado`
@@ -75,7 +76,7 @@ INSERT INTO `estado` (`Id_Estado`, `Nombre_E`) VALUES
 CREATE TABLE `laboratorio` (
   `Id_Laboratorio` int(11) NOT NULL,
   `Nombre_L` varchar(55) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `laboratorio`
@@ -100,7 +101,7 @@ CREATE TABLE `material` (
   `Descripcion_MA` varchar(255) NOT NULL,
   `Cantidad_MA` varchar(55) NOT NULL,
   `Id_Laboratorio` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `material`
@@ -123,7 +124,7 @@ CREATE TABLE `municipio` (
   `Id_Municipio` int(11) NOT NULL,
   `Nombre_M` varchar(55) NOT NULL,
   `Id_Estado` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `municipio`
@@ -149,7 +150,7 @@ CREATE TABLE `plantel` (
   `Correo_P` varchar(55) NOT NULL,
   `Clave_P` varchar(55) NOT NULL,
   `Id_Municipio` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `plantel`
@@ -172,7 +173,7 @@ CREATE TABLE `receta` (
   `Id_Receta` int(11) NOT NULL,
   `Nombre_R` varchar(55) NOT NULL,
   `Descripcion_R` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `receta`
@@ -195,7 +196,7 @@ CREATE TABLE `tusuario` (
   `Id_Tusuario` int(11) NOT NULL,
   `Nombre_T` varchar(55) NOT NULL,
   `Descripcion_T` varchar(55) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `tusuario`
@@ -225,14 +226,14 @@ CREATE TABLE `usuario` (
   `F_NAC` date NOT NULL,
   `Matricula` varchar(15) NOT NULL,
   `Id_Plantel` int(11) NOT NULL,
-  `T_Usuario` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Id_Tusuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`Id_Usuario`, `Nombre_U`, `A_Paterno`, `A_Materno`, `Telefono_U`, `Correo_U`, `Contraseña_U`, `F_NAC`, `Matricula`, `Id_Plantel`, `T_Usuario`) VALUES
+INSERT INTO `usuario` (`Id_Usuario`, `Nombre_U`, `A_Paterno`, `A_Materno`, `Telefono_U`, `Correo_U`, `Contraseña_U`, `F_NAC`, `Matricula`, `Id_Plantel`, `Id_Tusuario`) VALUES
 (1, 'Adrian', 'Alvarez', 'Benitez', '5566215370', 'adri2023@gmail.com', 'adrian2023', '2006-05-02', '200340210-5', 1, 1),
 (2, 'Angel', 'Luna', 'Carmona', '5577889900', 'angel2023@gmail.com', 'angel2023', '2005-07-22', '211950193-2', 2, 2),
 (3, 'Ulises', 'Hernandez', 'Valladares', '5611223344', 'ulises2023@gmail.com', 'ulises2023', '2004-08-09', '543197204-6', 3, 3),
@@ -247,7 +248,8 @@ INSERT INTO `usuario` (`Id_Usuario`, `Nombre_U`, `A_Paterno`, `A_Materno`, `Tele
 -- Indices de la tabla `clase`
 --
 ALTER TABLE `clase`
-  ADD PRIMARY KEY (`Id_Clase`);
+  ADD PRIMARY KEY (`Id_Clase`),
+  ADD KEY `Id_Laboratorio` (`Id_Laboratorio`);
 
 --
 -- Indices de la tabla `estado`
@@ -265,19 +267,22 @@ ALTER TABLE `laboratorio`
 -- Indices de la tabla `material`
 --
 ALTER TABLE `material`
-  ADD PRIMARY KEY (`Id_Material`);
+  ADD PRIMARY KEY (`Id_Material`),
+  ADD KEY `Id_Laboratorio` (`Id_Laboratorio`);
 
 --
 -- Indices de la tabla `municipio`
 --
 ALTER TABLE `municipio`
-  ADD PRIMARY KEY (`Id_Municipio`);
+  ADD PRIMARY KEY (`Id_Municipio`),
+  ADD KEY `Id_Estado` (`Id_Estado`);
 
 --
 -- Indices de la tabla `plantel`
 --
 ALTER TABLE `plantel`
-  ADD PRIMARY KEY (`Id_Plantel`);
+  ADD PRIMARY KEY (`Id_Plantel`),
+  ADD KEY `Id_Municipio` (`Id_Municipio`);
 
 --
 -- Indices de la tabla `receta`
@@ -295,7 +300,9 @@ ALTER TABLE `tusuario`
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`Id_Usuario`);
+  ADD PRIMARY KEY (`Id_Usuario`),
+  ADD KEY `Id_Plantel` (`Id_Plantel`),
+  ADD KEY `Id_Tusuario` (`Id_Tusuario`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -354,6 +361,41 @@ ALTER TABLE `tusuario`
 --
 ALTER TABLE `usuario`
   MODIFY `Id_Usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `clase`
+--
+ALTER TABLE `clase`
+  ADD CONSTRAINT `clase_ibfk_1` FOREIGN KEY (`Id_Laboratorio`) REFERENCES `laboratorio` (`Id_Laboratorio`);
+
+--
+-- Filtros para la tabla `material`
+--
+ALTER TABLE `material`
+  ADD CONSTRAINT `material_ibfk_1` FOREIGN KEY (`Id_Laboratorio`) REFERENCES `laboratorio` (`Id_Laboratorio`);
+
+--
+-- Filtros para la tabla `municipio`
+--
+ALTER TABLE `municipio`
+  ADD CONSTRAINT `municipio_ibfk_1` FOREIGN KEY (`Id_Estado`) REFERENCES `estado` (`Id_Estado`);
+
+--
+-- Filtros para la tabla `plantel`
+--
+ALTER TABLE `plantel`
+  ADD CONSTRAINT `plantel_ibfk_1` FOREIGN KEY (`Id_Municipio`) REFERENCES `municipio` (`Id_Municipio`);
+
+--
+-- Filtros para la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`Id_Plantel`) REFERENCES `plantel` (`Id_Plantel`),
+  ADD CONSTRAINT `usuario_ibfk_2` FOREIGN KEY (`Id_Tusuario`) REFERENCES `tusuario` (`Id_Tusuario`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
