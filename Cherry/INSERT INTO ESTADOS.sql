@@ -1,0 +1,1 @@
+insert into p405.estados(id_Estado,NombreEstado)values('4','Jalisco'),('5','Michoacan'),('6','Guerrero'),('7','Sinaloa'),('8','NuevoLeon'),('9','Chiapas'),('10','Queretaro'),('11','Ciudad de Mexico');

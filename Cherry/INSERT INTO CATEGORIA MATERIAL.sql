@@ -1,0 +1,1 @@
+insert into p405.categoriamaterial(Id_Categoria,NombreCate)values('5','Utensilios para almacena'),('6','Utensilios para pelar'),('7','Utensilios para procesar'),('8','Utensilios especiales'),('9','Utensilios de cocina'),('10','Utensilios de preparación');
